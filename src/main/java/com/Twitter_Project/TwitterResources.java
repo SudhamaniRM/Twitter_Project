@@ -12,17 +12,13 @@ import javax.ws.rs.core.Response;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
-public class twitterResources {
+public class TwitterResources {
     @GET
     @Path("/getTimeline")
-    public String[] getTimeline(){
-        String str[] = new String[0];
-        try {
-            str = myTimeline.MyTimeline();
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        return str;
+    public Response getTimeline(){
+        String str[];
+            str = MyTimelineClass.myTimeline();
+        return Response.ok(str).build();
     }
 
     @POST
@@ -33,7 +29,7 @@ public class twitterResources {
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
             try {
-                myTweet.MyTweet(msg);
+                MyTweetClass.myTweet(msg);
             }
             catch (TwitterException e) {
                 return Response.status(500, "Request Incomplete!!").build();
