@@ -15,8 +15,13 @@ import javax.ws.rs.core.Response;
 public class TwitterResources {
     @GET
     @Path("/getTimeline")
-    public String[] getTimeline() throws TwitterException {
-        String str[] =MyTimelineClass.MyTimeline();
+    public String[] getTimeline(){
+        String str[] = new String[0];
+        try {
+            str = MyTimelineClass.MyTimeline();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
         return str;
     }
 
