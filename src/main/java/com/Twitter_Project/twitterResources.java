@@ -12,13 +12,13 @@ import javax.ws.rs.core.Response;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
-public class TwitterResources {
+public class twitterResources {
     @GET
     @Path("/getTimeline")
     public String[] getTimeline(){
         String str[] = new String[0];
         try {
-            str = MyTimelineClass.MyTimeline();
+            str = myTimeline.MyTimeline();
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class TwitterResources {
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
             try {
-                MyTweetClass.MyTweet(msg);
+                myTweet.MyTweet(msg);
             }
             catch (TwitterException e) {
                 return Response.status(500, "Request Incomplete!!").build();

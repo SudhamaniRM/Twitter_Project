@@ -4,14 +4,14 @@ import twitter4j.*;
 import twitter4j.TwitterException;
 import java.util.List;
 
-public class MyTimelineClass {
+public class myTimeline {
     public static String[] MyTimeline() throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         List<Status> statuses = twitter.getHomeTimeline();
         String str[] = new String[statuses.size()];
         int i=0;
         for (Status st : statuses) {
-            str[i]=String.join("--------->",st.getUser().getName(), st.getText());
+            str[i] = String.join("--------->",st.getUser().getName(), st.getText());
             i++;
         }
         return str;
