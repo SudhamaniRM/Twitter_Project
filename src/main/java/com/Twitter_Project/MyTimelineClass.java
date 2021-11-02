@@ -4,8 +4,8 @@ import twitter4j.*;
 import twitter4j.TwitterException;
 import java.util.List;
 
-public class myTimeline {
-    public static String[] MyTimeline() throws TwitterException {
+public class MyTimelineClass {
+    public static String[] myTimeline() throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         List<Status> statuses = twitter.getHomeTimeline();
         String str[] = new String[statuses.size()];
