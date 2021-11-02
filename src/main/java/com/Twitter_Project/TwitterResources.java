@@ -17,7 +17,7 @@ public class TwitterResources {
     @Path("/getTimeline")
     public Response getTimeline(){
         String str[];
-            str = MyTimelineClass.myTimeline();
+        str = MyTimelineClass.myTimeline();
         return Response.ok(str).build();
     }
 
@@ -35,6 +35,6 @@ public class TwitterResources {
                 return Response.status(500, "Request Incomplete!!").build();
             }
         }
-        return Response.status(200, "Successfully Tweeted!!").build();
+        return Response.ok("Successfully Tweeted").build();
     }
 }
