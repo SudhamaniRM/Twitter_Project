@@ -9,7 +9,6 @@ public class TwitterRunner extends Application<TwitterConfig>{
     }
     @Override
     public void run(TwitterConfig configuration,Environment environment) {
-        System.out.println("Running.......");
         environment.jersey().register(new TwitterResources());
     }
 }
