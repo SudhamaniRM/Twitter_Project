@@ -15,26 +15,24 @@ import javax.ws.rs.core.Response;
 public class TwitterResources {
     @GET
     @Path("/getTimeline")
-    public Response getTimeline(){
-        String str[];
-        str = MyTimelineClass.myTimeline();
+    public Response getTimeline() {
+        String str[] = MyTimelineClass.myTimeline();
         return Response.ok(str).build();
     }
 
     @POST
     @Path("/postTweet")
     public Response postTweet(Request request) {
-        String msg=request.getMsg();
+        String msg = request.getMsg();
         if (StringUtil.isEmpty(msg)) {
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
-            try {
+            if (MyTweetClass.myTweet(msg) == true) {
                 MyTweetClass.myTweet(msg);
-            }
-            catch (TwitterException e) {
-                return Response.status(500, "Request Incomplete!!").build();
+                return Response.status(200, "Successfully Tweeted").build();
+            }else{
+                return Response.status(400, "Request Incomplete!!").build();
             }
         }
-        return Response.ok("Successfully Tweeted").build();
     }
 }
