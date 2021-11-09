@@ -16,12 +16,19 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class TwitterResources {
-    Twitter twitter = TwitterFactory.getSingleton();
+    MyTimelineClass myTimelineClass;
+
+    public TwitterResources(){
+    myTimelineClass = new MyTimelineClass();
+    }
+    public TwitterResources(MyTimelineClass myTimelineClass){
+        this.myTimelineClass = myTimelineClass;
+    }
 
     @GET
     @Path("/getTimeline")
     public Response getTimeline() {
-        String str[] = MyTimelineClass.myTimeline();
+        String str[] = myTimelineClass.myTimeline();
         return Response.ok(str).build();
     }
 
@@ -33,7 +40,7 @@ public class TwitterResources {
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
             try {
-                Status status = twitter.updateStatus(msg);
+                Status status = MyTweetClass.myTweet(msg);
                 if (status.getText().equals(msg)) {
                     return Response.status(200, "Successfully Tweeted").build();
                 } else {

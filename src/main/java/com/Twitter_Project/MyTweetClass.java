@@ -6,14 +6,9 @@ import twitter4j.TwitterException;
 import twitter4j.Twitter;
 
 public class MyTweetClass {
-    public static Status myTweet(String msg) {
+    public static Status myTweet(String msg) throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
-        Status status = null;
-        try {
-            status = twitter.updateStatus(msg);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
+        Status status = twitter.updateStatus(msg);
         return status;
     }
 }
