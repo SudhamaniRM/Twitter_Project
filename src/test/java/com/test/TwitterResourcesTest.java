@@ -72,3 +72,4 @@ public class TwitterResourcesTest {
         Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
     }
 }
+
