@@ -1,5 +1,7 @@
-package com.Twitter_Project;
+package com.runner;
 
+import com.config.TwitterConfig;
+import com.Twitter_Project.TwitterResources;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 

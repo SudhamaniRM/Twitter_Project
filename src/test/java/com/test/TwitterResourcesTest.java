@@ -19,30 +19,22 @@ import twitter4j.TwitterFactory;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterResourcesTest {
     TwitterResources twitterResources;
     Twitter twitter;
     MyTimelineClass myTimelineClass;
-    MyTweetClass myTweetClass;
     Request request;
-    MockedStatic<MyTimelineClass> myTimelineClassMockedStatic = Mockito.mockStatic(MyTimelineClass.class);
-    MockedStatic<MyTweetClass> myTweetClassMockedStatic = Mockito.mockStatic(MyTweetClass.class);
-
     @Before
     public void setUp() {
-        myTimelineClass = mock(MyTimelineClass.class);
-        myTweetClass = mock(MyTweetClass.class);
         twitterResources = new TwitterResources(myTimelineClass);
         request = new Request();
         twitter = TwitterFactory.getSingleton();
-
     }
 
     @Test
     public void testCase_getTimelineFromTwitterResources_successCase() throws TwitterException {
+        MockedStatic<MyTimelineClass> myTimelineClassMockedStatic = Mockito.mockStatic(MyTimelineClass.class);
         String str[] = myTimelineClass.myTimeline();
         myTimelineClassMockedStatic.when(MyTimelineClass::myTimeline).thenReturn(str);
         List<Status> status = twitter.getHomeTimeline();
@@ -71,5 +63,25 @@ public class TwitterResourcesTest {
         }
         Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
     }
-}
+
+    @Test
+    public void testCase_postTweetFromTwitterResources_sendTweet() throws TwitterException {
+        String msg = "nice day....";
+        Status status = MyTweetClass.myTweet(msg);
+        MockedStatic<MyTweetClass> myTweetClassMockedStatic = Mockito.mockStatic(MyTweetClass.class);
+        myTweetClassMockedStatic.when(() -> MyTweetClass.myTweet(msg)).thenReturn(status);
+        String expectedTweet = request.getMsg();
+        String actualTweet = "nice day....";
+        Response actualResponse = null;
+        Response expectedResponse = null;
+        if (status.getText().equals(expectedTweet) && status.getText().equals(actualTweet) ) {
+            expectedResponse=  Response.status(200, "Successfully Tweeted").build();
+            actualResponse = twitterResources.postTweet(request);
+        } else {
+            expectedResponse =  Response.status(400, "Request Incomplete!!").build();
+            actualResponse = twitterResources.postTweet(request);
+        }
+            Assert.assertEquals(expectedResponse.getStatus(),actualResponse.getStatus());
+        }
+    }
 

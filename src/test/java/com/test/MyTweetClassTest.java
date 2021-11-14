@@ -22,7 +22,7 @@ Request request;
 
 @Test
     public void testCase_myTweetFromMyTweetClass_successCase(){
-    request.setMsg("My Tweet...");
+    request.setMsg("good day:):):)...");
     String expectedTweet = request.getMsg();
     Status status = null;
     try {

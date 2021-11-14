@@ -1,4 +1,4 @@
-package com.Twitter_Project;
+package com.config;
 
 import io.dropwizard.Configuration;
 
