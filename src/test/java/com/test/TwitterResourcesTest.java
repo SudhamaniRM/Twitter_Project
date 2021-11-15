@@ -35,8 +35,8 @@ public class TwitterResourcesTest {
     @Test
     public void testCase_getTimelineFromTwitterResources_successCase() throws TwitterException {
         MockedStatic<MyTimelineClass> myTimelineClassMockedStatic = Mockito.mockStatic(MyTimelineClass.class);
-        String str[] = myTimelineClass.myTimeline();
-        myTimelineClassMockedStatic.when(MyTimelineClass::myTimeline).thenReturn(str);
+        String tweets[] = myTimelineClass.myTimeline();
+        myTimelineClassMockedStatic.when(MyTimelineClass::myTimeline).thenReturn(tweets);
         List<Status> status = twitter.getHomeTimeline();
         String[] str1 = new String[status.size()];
         int i = 0;
@@ -51,8 +51,8 @@ public class TwitterResourcesTest {
 
     @Test
     public void testCase_postTweetFromTwitterResources_emptyTweet() {
-        String msg = "";
-        request.setMsg(msg);
+        String message = "";
+        request.setMsg(message);
         String expectedTweet = request.getMsg();
         String actualTweet = "";
         Response actualResponse = null;
@@ -66,12 +66,12 @@ public class TwitterResourcesTest {
 
     @Test
     public void testCase_postTweetFromTwitterResources_sendTweet() throws TwitterException {
-        String msg = "nice day....";
-        Status status = MyTweetClass.myTweet(msg);
+        String message = "nice day.....";
+        Status status = MyTweetClass.myTweet(message);
         MockedStatic<MyTweetClass> myTweetClassMockedStatic = Mockito.mockStatic(MyTweetClass.class);
-        myTweetClassMockedStatic.when(() -> MyTweetClass.myTweet(msg)).thenReturn(status);
+        myTweetClassMockedStatic.when(() -> MyTweetClass.myTweet(message)).thenReturn(status);
         String expectedTweet = request.getMsg();
-        String actualTweet = "nice day....";
+        String actualTweet = "nice day.....";
         Response actualResponse = null;
         Response expectedResponse = null;
         if (status.getText().equals(expectedTweet) && status.getText().equals(actualTweet) ) {
