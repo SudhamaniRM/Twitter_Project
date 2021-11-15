@@ -2,27 +2,34 @@ package com.test;
 
 import com.Twitter_Project.MyTweetClass;
 import com.Twitter_Project.Request;
+import com.config.TwitterConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MyTweetClassTest {
-MyTweetClass myTweetClass;
-Request request;
+    TwitterConfig twitterConfig;
+    MyTweetClass myTweetClass;
+    Request request;
 
 @Before
     public void setUp() {
+    twitterConfig = mock(TwitterConfig.class);
     myTweetClass = new MyTweetClass();
     request = new Request();
 }
 
 @Test
     public void testCase_myTweetFromMyTweetClass_successCase(){
-    request.setMsg("good day:):):)");
+    request.setMsg("good day......::):)::)");
     String expectedTweet = request.getMsg();
     Status status = null;
     try {

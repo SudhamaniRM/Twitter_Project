@@ -2,9 +2,7 @@ package com.Twitter_Project;
 
 import org.eclipse.jetty.util.StringUtil;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +20,7 @@ public class TwitterResources {
     myTimelineClass = new MyTimelineClass();
     }
     public TwitterResources(MyTimelineClass myTimelineClass){
+
         this.myTimelineClass = myTimelineClass;
     }
 
