@@ -8,12 +8,15 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TwitterRunnerTest {
     TwitterRunner twitterRunner;
     TwitterConfig twitterConfig;
     Environment environment;
     TwitterResources twitterResources;
+    Logger logger= LoggerFactory.getLogger(TwitterRunnerTest.class);
 
     @BeforeEach
     void setUp() {
@@ -31,7 +34,7 @@ public class TwitterRunnerTest {
         }
         catch (Exception e)
         {
-            e.getMessage();
+            logger.error("Exception occur",e);
         }
     }
 
@@ -42,7 +45,7 @@ public class TwitterRunnerTest {
         }
         catch (Exception e)
         {
-            e.getMessage();
+            logger.error("Exception occur",e);
         }
 
         Assert.assertTrue(true);

@@ -1,6 +1,9 @@
 package com.config;
 
+import com.Twitter_Project.MyTimelineClass;
 import io.dropwizard.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import twitter4j.conf.ConfigurationBuilder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class TwitterConfig extends Configuration {
+    Logger logger= LoggerFactory.getLogger(MyTimelineClass.class);
     String filepath="twitter4j.yml";
     String accessTokenSecret="";
     String consumerSecret="";
@@ -19,12 +23,12 @@ public class TwitterConfig extends Configuration {
         try {
             fileInputStream = new FileInputStream(filepath);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Exception occur",e);
         }
         try {
             properties.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error in loading configuration",e);
         }
         accessTokenSecret= properties.getProperty("accessTokenSecret");
         consumerSecret= properties.getProperty("consumerSecret");
