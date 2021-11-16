@@ -66,12 +66,12 @@ public class TwitterResourcesTest {
 
     @Test
     public void testCase_postTweetFromTwitterResources_sendTweet() throws TwitterException {
-        String message = "nice day.....";
+        String message = "nice day...";
         Status status = MyTweetClass.myTweet(message);
         MockedStatic<MyTweetClass> myTweetClassMockedStatic = Mockito.mockStatic(MyTweetClass.class);
         myTweetClassMockedStatic.when(() -> MyTweetClass.myTweet(message)).thenReturn(status);
         String expectedTweet = request.getMsg();
-        String actualTweet = "nice day.....";
+        String actualTweet = "nice day...";
         Response actualResponse = null;
         Response expectedResponse = null;
         if (status.getText().equals(expectedTweet) && status.getText().equals(actualTweet) ) {
