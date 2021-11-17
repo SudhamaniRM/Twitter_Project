@@ -31,7 +31,7 @@ public class MyTimelineClass {
         try {
             statuses = twitter.getHomeTimeline();
         } catch (TwitterException e) {
-            logger.info("Just a stack trace, nothing to worry about", e);
+            logger.error("Just a stack trace, nothing to worry about", e);
         }
 
         String str[] = new String[statuses.size()];
