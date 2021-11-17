@@ -1,6 +1,8 @@
 package com.Twitter_Project;
 
 import org.eclipse.jetty.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -15,12 +17,13 @@ import javax.ws.rs.core.Response;
 @Path("/api/1.0/twitter")
 public class TwitterResources {
     MyTimelineClass myTimelineClass;
+    Logger logger= LoggerFactory.getLogger(TwitterResources.class);
 
-    public TwitterResources(){
+    public TwitterResources() {
     myTimelineClass = new MyTimelineClass();
     }
-    public TwitterResources(MyTimelineClass myTimelineClass){
 
+    public TwitterResources(MyTimelineClass myTimelineClass){
         this.myTimelineClass = myTimelineClass;
     }
 
@@ -28,6 +31,7 @@ public class TwitterResources {
     @Path("/getTimeline")
     public Response getTimeline() {
         String str[] = myTimelineClass.myTimeline();
+        logger.info("Retrieving Latest Tweets");
         return Response.ok(str).build();
     }
 
@@ -36,16 +40,20 @@ public class TwitterResources {
     public Response postTweet(Request request) {
         String msg = request.getMsg();
         if (StringUtil.isEmpty(msg)) {
+            logger.warn("Provide a valid tweet!");
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
             try {
                 Status status = MyTweetClass.myTweet(msg);
                 if (status.getText().equals(msg)) {
+                    logger.info("Tweet posted successfully");
                     return Response.status(200, "Successfully Tweeted").build();
                 } else {
+                    logger.info("Unsuccessful!!, Tweet has not been posted");
                     return Response.status(400, "Request Incomplete!!").build();
                 }
             } catch (TwitterException e) {
+                logger.error("Exception has been occurred!!",e);
                 return Response.status(500, "Request Incomplete!!").build();
             }
         }

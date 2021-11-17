@@ -8,19 +8,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
-
 import java.util.Arrays;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MyTimelineClassTest {
     TwitterConfig twitterConfig;
     MyTimelineClass myTimelineClass;
     Twitter twitter;
+    Logger logger= LoggerFactory.getLogger(MyTimelineClassTest.class);
 
     @Before
     public void setUp() {
@@ -35,6 +35,7 @@ public class MyTimelineClassTest {
         ConfigurationBuilder configurationBuilder = twitterConfig.configurationBuilder();
         TwitterFactory twitterFactory = new TwitterFactory(configurationBuilder.build());
         Twitter twitter = twitterFactory.getInstance();
+        logger.info("Retrieving Tweets");
         List<Status> status = twitter.getHomeTimeline();
         String[] str = new String[status.size()];
         int i = 0;
