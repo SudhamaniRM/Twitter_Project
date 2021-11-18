@@ -32,3 +32,4 @@ public class TwitterRunner extends Application<TwitterConfig> {
         environment.jersey().register(new TwitterResources());
     }
 }
+
