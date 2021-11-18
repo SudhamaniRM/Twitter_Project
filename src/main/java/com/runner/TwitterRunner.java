@@ -1,7 +1,6 @@
 package com.runner;
 
 import com.Twitter_Project.resources.TwitterResources;
-import com.Twitter_Project.services.MyTimelineClass;
 import com.config.TwitterConfig;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
@@ -9,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TwitterRunner extends Application<TwitterConfig> {
-    public static Logger logger = LoggerFactory.getLogger(MyTimelineClass.class);
+    public static Logger logger = LoggerFactory.getLogger(TwitterRunner.class);
     TwitterConfig twitterConfig;
     Environment environment;
 
@@ -33,3 +32,4 @@ public class TwitterRunner extends Application<TwitterConfig> {
         environment.jersey().register(new TwitterResources());
     }
 }
+
