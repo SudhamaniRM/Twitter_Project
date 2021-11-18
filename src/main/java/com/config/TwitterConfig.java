@@ -1,6 +1,5 @@
 package com.config;
 
-import com.Twitter_Project.services.MyTimelineClass;
 import io.dropwizard.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class TwitterConfig extends Configuration {
-    Logger logger = LoggerFactory.getLogger(MyTimelineClass.class);
+    Logger logger = LoggerFactory.getLogger(TwitterConfig.class);
     String filepath = "twitter4j.yml";
     String accessTokenSecret = "";
     String consumerSecret = "";
