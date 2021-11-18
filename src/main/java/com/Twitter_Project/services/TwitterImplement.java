@@ -1,15 +1,16 @@
 package com.Twitter_Project.services;
 
-import com.config.TwitterConfig;
+import com.Twitter_Project.config.TwitterConfig;
+import com.Twitter_Project.models.TwitterResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TwitterImplement {
@@ -18,6 +19,8 @@ public class TwitterImplement {
     ConfigurationBuilder configurationBuilder;
     TwitterFactory twitterFactory;
     Twitter twitter;
+    TwitterResponse twitterResponse;
+
 
     public TwitterImplement(TwitterFactory twitterFactory) {
         this.twitterFactory = twitterFactory;
@@ -36,8 +39,14 @@ public class TwitterImplement {
         return status;
     }
 
-    public ArrayList<String> myTimeline() {
-        ArrayList<String> arrayList = new ArrayList<>();
+    public ArrayList<TwitterResponse> myTimeline() {
+        String twitterHandle;
+        String name;
+        String message;
+        String profileImageUrl;
+        Date createdAt = null;
+
+        ArrayList<TwitterResponse> arrayList = new ArrayList<>();
         List<Status> statuses = null;
         try {
             statuses = twitter.getHomeTimeline();
@@ -45,8 +54,16 @@ public class TwitterImplement {
             e.printStackTrace();
         }
         for (int i = 0; i < statuses.size(); i++) {
-            Status status = statuses.get(i);
-            arrayList.add(status.getText());
+        Status s = statuses.get(i);
+        profileImageUrl = s.getUser().getProfileImageURL();
+        name = s.getUser().getName();
+        twitterHandle =s.getUser().getScreenName();
+        message = s.getText();
+        createdAt = s.getCreatedAt();
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date = formatter.format(createdAt);
+        twitterResponse = new TwitterResponse(message,twitterHandle,name,profileImageUrl,date);
+        arrayList.add(twitterResponse);
         }
         return arrayList;
     }
