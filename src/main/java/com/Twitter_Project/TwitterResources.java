@@ -1,6 +1,5 @@
-package com.Twitter_Project.resources;
+package com.Twitter_Project;
 
-import com.Twitter_Project.services.TwitterImplement;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,23 +16,23 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class TwitterResources {
-    TwitterImplement twitterImplement;
-    Logger logger = LoggerFactory.getLogger(TwitterResources.class);
+    MyTimelineClass myTimelineClass;
+    Logger logger= LoggerFactory.getLogger(TwitterResources.class);
 
     public TwitterResources() {
-        twitterImplement = new TwitterImplement();
+    myTimelineClass = new MyTimelineClass();
     }
 
-
-    public TwitterResources(TwitterImplement twitterImplement) {
-        this.twitterImplement = twitterImplement;
+    public TwitterResources(MyTimelineClass myTimelineClass){
+        this.myTimelineClass = myTimelineClass;
     }
 
     @GET
     @Path("/getTimeline")
     public Response getTimeline() {
+        String str[] = myTimelineClass.myTimeline();
         logger.info("Retrieving Latest Tweets");
-        return Response.ok(twitterImplement.myTimeline()).build();
+        return Response.ok(str).build();
     }
 
     @POST
@@ -45,7 +44,7 @@ public class TwitterResources {
             return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
         } else {
             try {
-                Status status = twitterImplement.myTweet(msg);
+                Status status = MyTweetClass.myTweet(msg);
                 if (status.getText().equals(msg)) {
                     logger.info("Tweet posted successfully");
                     return Response.status(200, "Successfully Tweeted").build();
@@ -54,7 +53,7 @@ public class TwitterResources {
                     return Response.status(400, "Request Incomplete!!").build();
                 }
             } catch (TwitterException e) {
-                logger.error("Exception has been occurred!!", e);
+                logger.error("Exception has been occurred!!",e);
                 return Response.status(500, "Request Incomplete!!").build();
             }
         }

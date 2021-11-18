@@ -1,6 +1,6 @@
 package com.test;
 
-import com.Twitter_Project.resources.TwitterResources;
+import com.Twitter_Project.TwitterResources;
 import com.config.TwitterConfig;
 import com.runner.TwitterRunner;
 import io.dropwizard.setup.Environment;
@@ -16,32 +16,36 @@ public class TwitterRunnerTest {
     TwitterConfig twitterConfig;
     Environment environment;
     TwitterResources twitterResources;
-    Logger logger = LoggerFactory.getLogger(TwitterRunnerTest.class);
+    Logger logger= LoggerFactory.getLogger(TwitterRunnerTest.class);
 
     @BeforeEach
     void setUp() {
-        twitterConfig = Mockito.mock(TwitterConfig.class);
-        environment = Mockito.mock(Environment.class);
-        twitterRunner = new TwitterRunner(twitterConfig, environment);
-        twitterResources = Mockito.mock(TwitterResources.class);
+        twitterConfig= Mockito.mock(TwitterConfig.class);
+        environment= Mockito.mock(Environment.class);
+        twitterRunner=new TwitterRunner(twitterConfig,environment);
+        twitterResources=Mockito.mock(TwitterResources.class);
     }
 
     @Test
     void main() {
-        String[] arg = {"server"};
+        String arg[]={"server"};
         try {
             TwitterRunner.main(arg);
-        } catch (Exception e) {
-            logger.error("Exception occur", e);
+        }
+        catch (Exception e)
+        {
+            logger.error("Exception occur",e);
         }
     }
 
     @Test
     void run() {
         try {
-            twitterRunner.run(twitterConfig, environment);
-        } catch (Exception e) {
-            logger.error("Exception occur", e);
+            twitterRunner.run(twitterConfig,environment);
+        }
+        catch (Exception e)
+        {
+            logger.error("Exception occur",e);
         }
 
         Assert.assertTrue(true);
