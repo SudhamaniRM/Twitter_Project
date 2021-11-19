@@ -1,4 +1,4 @@
-package com.config;
+package com.Twitter_Project.config;
 
 import io.dropwizard.Configuration;
 import org.slf4j.Logger;
