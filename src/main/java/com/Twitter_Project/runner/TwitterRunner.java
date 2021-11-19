@@ -1,7 +1,7 @@
-package com.runner;
+package com.Twitter_Project.runner;
 
 import com.Twitter_Project.resources.TwitterResources;
-import com.config.TwitterConfig;
+import com.Twitter_Project.config.TwitterConfig;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
@@ -32,4 +32,3 @@ public class TwitterRunner extends Application<TwitterConfig> {
         environment.jersey().register(new TwitterResources());
     }
 }
-
