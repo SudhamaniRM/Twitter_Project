@@ -40,4 +40,12 @@ public class TwitterResponse {
         this.createdAt = createdAt;
         return createdAt;
     }
+    public String display() {
+        return "The data for this object is {" +
+                "message=" + message +
+                ", name='" + user.name + '\'' +
+                ", twitterHandle='" + user.twitterHandle + '\'' +
+                ", profileImageUrl=" + user.profileImageUrl + ",createdAt=" + createdAt+
+                '}';
+    }
 }
