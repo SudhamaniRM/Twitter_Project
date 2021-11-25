@@ -1,5 +1,6 @@
 package com.Twitter_Project.resources;
 
+import com.Twitter_Project.models.TwitterResponse;
 import com.Twitter_Project.services.TwitterImplement;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
@@ -7,12 +8,12 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
@@ -24,7 +25,6 @@ public class TwitterResources {
         twitterImplement = new TwitterImplement();
     }
 
-
     public TwitterResources(TwitterImplement twitterImplement) {
         this.twitterImplement = twitterImplement;
     }
@@ -34,6 +34,14 @@ public class TwitterResources {
     public Response getTimeline() {
         logger.info("Retrieving Latest Tweets");
         return Response.ok(twitterImplement.myTimeline()).build();
+    }
+    @GET
+    @Path("/filter")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getFilterTweets(@QueryParam("searchKey") String searchKey)
+    {
+        List<TwitterResponse> tweets=twitterImplement.getFilteredTweets(searchKey);
+        return Response.ok(tweets).build();
     }
 
     @POST
@@ -58,6 +66,5 @@ public class TwitterResources {
                 return Response.status(500, "Request Incomplete!!").build();
             }
         }
-
     }
 }

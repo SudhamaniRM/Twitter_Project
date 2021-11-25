@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterResourcesTest {
     TwitterResources twitterResources;
-    Logger logger = LoggerFactory.getLogger(TwitterResourcesTest.class);
     TwitterImplement twitterImplement;
 
     @Before
@@ -37,7 +36,6 @@ public class TwitterResourcesTest {
         arrayList.add("One");
         arrayList.add("Two");
         Response expectedResponse = Response.ok(arrayList).build();
-        when(twitterImplement.myTimeline()).thenReturn(arrayList);
         Response actualResponse = twitterResources.getTimeline();
         Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
     }
