@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterResourcesTest {
     TwitterResources twitterResources;
-    Logger logger = LoggerFactory.getLogger(TwitterResourcesTest.class);
     TwitterImplement twitterImplement;
 
     @Before

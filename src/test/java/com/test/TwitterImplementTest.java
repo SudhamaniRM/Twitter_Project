@@ -32,10 +32,10 @@ public class TwitterImplementTest {
     Request request;
     TwitterResponse twitterResponse;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String message = "Bangalore is one of my favourite places";
+    String message = "Bangalore is nice ";
     String twitterHandle = "sudhamani_r_m";
     String name = "Sudhamani R M";
-    String profileImageUrl = "http://Sudha/normal.jpg";
+    String profileImageUrl = "www.sudha.com";
     Date createdAt;
     String date;
 
@@ -55,13 +55,13 @@ public class TwitterImplementTest {
         twitterConfig = mock(TwitterConfig.class);
         twitterFactory = mock(TwitterFactory.class);
         twitter = mock(Twitter.class);
-        twitterResponse = spy(new TwitterResponse(message, twitterHandle, name, profileImageUrl, date));
+        twitterResponse = new TwitterResponse(message, twitterHandle, name, profileImageUrl, date);
         when(twitterFactory.getInstance()).thenReturn(twitter);
         twitterImplement = new TwitterImplement(twitterFactory, twitterResponse);
     }
 
     @Test
-    public void testCase_fetchTweet_successCase() throws TwitterException {
+    public void testCaseFetchTweetSuccessCase() throws TwitterException {
         Status s1 = mock(Status.class);
         User user = mock(User.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
@@ -81,7 +81,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testCase_myTweetFromTwitterImplement_successCase() throws TwitterException {
+    public void testCaseMyTweetFromTwitterImplement_successCase() throws TwitterException {
         Status expected = mock(Status.class);
         String message = "My Tweet!!";
         when(twitter.updateStatus(message)).thenReturn(expected);
@@ -90,7 +90,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void getFilteredTweets_SuccessCase() {
+    public void getFilteredTweetsSuccessCase() {
         ArrayList<String> str = new ArrayList<String>();
         str.add("Bangalore is very good place");
         str.add("Have a good day");
