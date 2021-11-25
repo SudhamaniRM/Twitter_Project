@@ -51,7 +51,7 @@ public class TwitterImplement {
     }
 
     public ArrayList<TwitterResponse> myTimeline() {
-        ArrayList<TwitterResponse> arrayList = new ArrayList<>();
+        ArrayList<TwitterResponse> Tweets = new ArrayList<>();
         List<Status> statuses = null;
         try {
             statuses = twitter.getHomeTimeline();
@@ -68,19 +68,16 @@ public class TwitterImplement {
             Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             String date = formatter.format(createdAt);
             twitterResponse = new TwitterResponse(message, twitterHandle, name, profileImageUrl, date);
-            arrayList.add(twitterResponse);
+            Tweets.add(twitterResponse);
         }
-        return arrayList;
+        return Tweets;
     }
 
     public List<TwitterResponse> getFilteredTweets(String tweets) {
-
-        ArrayList<TwitterResponse> tweetList;
-        List<TwitterResponse> filteredTweets;
-        tweetList = myTimeline();
+        ArrayList<TwitterResponse> tweetList = myTimeline();
         int len = tweets.length();
         CharSequence charSequence = tweets.subSequence(0, len);
-        filteredTweets = tweetList.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
+        List<TwitterResponse> filteredTweets = tweetList.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
         return filteredTweets;
     }
 }
