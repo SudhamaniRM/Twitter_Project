@@ -2,8 +2,8 @@ package com.Twitter_Project.services;
 
 import com.Twitter_Project.config.TwitterConfig;
 import com.Twitter_Project.models.TwitterResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -17,20 +17,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class TwitterImplement {
-    public static Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
     TwitterConfig twitterConfig;
     ConfigurationBuilder configurationBuilder;
     TwitterFactory twitterFactory;
     Twitter twitter;
     TwitterResponse twitterResponse;
 
-    public TwitterImplement(TwitterFactory twitterFactory) {
-        this.twitterFactory = twitterFactory;
-        this.twitter = twitterFactory.getInstance();
-        this.twitterResponse = twitterResponse;
-    }
-
+    @Autowired
     public TwitterImplement() {
         twitterConfig = new TwitterConfig();
         configurationBuilder = twitterConfig.configurationBuilder();
@@ -42,7 +37,7 @@ public class TwitterImplement {
     public TwitterImplement(TwitterFactory twitterFactory, TwitterResponse twitterResponse) {
         this.twitterFactory = twitterFactory;
         this.twitterResponse = twitterResponse;
-        this.twitter= twitterFactory.getInstance();
+        this.twitter = twitterFactory.getInstance();
     }
 
     public Status myTweet(String msg) throws TwitterException {
@@ -60,7 +55,7 @@ public class TwitterImplement {
         }
         for (int i = 0; i < statuses.size(); i++) {
             Status s = statuses.get(i);
-            String profileImageUrl= s.getUser().getProfileImageURL();
+            String profileImageUrl = s.getUser().getProfileImageURL();
             String name = s.getUser().getName();
             String twitterHandle = s.getUser().getScreenName();
             String message = s.getText();

@@ -1,70 +1,76 @@
 package com.Twitter_Project.resources;
 
+import com.Twitter_Project.models.SendResponse;
 import com.Twitter_Project.models.TwitterResponse;
 import com.Twitter_Project.services.TwitterImplement;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Produces(MediaType.APPLICATION_JSON)
-@Path("/api/1.0/twitter")
+@RestController
 public class TwitterResources {
+    @Autowired
     TwitterImplement twitterImplement;
     Logger logger = LoggerFactory.getLogger(TwitterResources.class);
-
-    public TwitterResources() {
-        twitterImplement = new TwitterImplement();
-    }
 
     public TwitterResources(TwitterImplement twitterImplement) {
         this.twitterImplement = twitterImplement;
     }
 
-    @GET
-    @Path("/getTimeline")
+   @Bean
+    public TwitterImplement getTwitterImplement() {
+        return new TwitterImplement();
+    }
+
+    @RequestMapping("/getTimeline")
     public Response getTimeline() {
         logger.info("Retrieving Latest Tweets");
         return Response.ok(twitterImplement.myTimeline()).build();
     }
-    @GET
-    @Path("/filter")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getFilterTweets(@QueryParam("searchKey") String searchKey)
-    {
-        List<TwitterResponse> tweets=twitterImplement.getFilteredTweets(searchKey);
+
+    @RequestMapping("/filteredTweets/{searchKey}")
+    public Response getFilterTweets(@PathVariable String searchKey) {
+        List<TwitterResponse> tweets = twitterImplement.getFilteredTweets(searchKey);
         return Response.ok(tweets).build();
     }
 
-    @POST
-    @Path("/postTweet")
-    public Response postTweet(Request request) {
+    @RequestMapping(method = RequestMethod.POST, value = "/postTweet")
+    public ResponseEntity<SendResponse> postTweet(@RequestBody Request request) {
         String msg = request.getMsg();
+        HttpHeaders responseHeaders = new HttpHeaders();
         if (StringUtil.isEmpty(msg)) {
             logger.warn("Provide a valid tweet!");
-            return Response.status(400, "Invalid!!,Please enter a valid tweet").build();
+            return new ResponseEntity(new SendResponse("Invalid!Please enter a valid tweet"), new HttpHeaders(),HttpStatus.BAD_REQUEST);
         } else {
             try {
                 Status status = twitterImplement.myTweet(msg);
                 if (status.getText().equals(msg)) {
                     logger.info("Tweet posted successfully");
-                    return Response.status(200, "Successfully Tweeted").build();
+                    return new ResponseEntity(new SendResponse("Successfully posted tweet!"), new HttpHeaders(),HttpStatus.OK);
                 } else {
                     logger.info("Unsuccessful!!, Tweet has not been posted");
-                    return Response.status(400, "Request Incomplete!!").build();
+                    return new ResponseEntity(new SendResponse("Resquest Incomplete"), new HttpHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            } catch (TwitterException e) {
-                logger.error("Exception has been occurred!!", e);
-                return Response.status(500, "Request Incomplete!!").build();
+            }
+                catch (TwitterException exc) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Request Incomplete", exc);
             }
         }
     }
 }
+

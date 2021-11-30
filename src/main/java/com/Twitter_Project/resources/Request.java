@@ -1,5 +1,8 @@
 package com.Twitter_Project.resources;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Request {
     String msg;
 
