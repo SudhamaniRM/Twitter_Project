@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class TwitterRunnerTest {
     TwitterRunner twitterRunner;
     TwitterConfig twitterConfig;

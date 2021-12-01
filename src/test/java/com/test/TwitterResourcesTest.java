@@ -1,5 +1,6 @@
 package com.test;
 
+import com.Twitter_Project.models.SendResponse;
 import com.Twitter_Project.resources.Request;
 import com.Twitter_Project.resources.TwitterResources;
 import com.Twitter_Project.services.TwitterImplement;
@@ -8,8 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -37,15 +39,15 @@ public class TwitterResourcesTest {
         arrayList.add("Two");
         Response expectedResponse = Response.ok(arrayList).build();
         Response actualResponse = twitterResources.getTimeline();
-        Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
+       Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
     }
 
     @Test
     public void testCase_postTweetFromTwitterResources_emptyTweet() {
         Request request = new Request("");
-        Response expectedResponse = Response.status(400, "Invalid!!,Please enter a valid tweet").build();
-        Response actualResponse = twitterResources.postTweet(request);
-        Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
+        ResponseEntity expectedResponse = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        ResponseEntity<SendResponse> actualResponse = twitterResources.postTweet(request);
+        Assert.assertEquals(expectedResponse.getStatusCode(), actualResponse.getStatusCode());
     }
 
     @Test
@@ -57,8 +59,8 @@ public class TwitterResourcesTest {
         Status status = mock(Status.class);
         when(status.getText()).thenReturn(tweet);
         when(twitterImplement.myTweet(tweet)).thenReturn(status);
-        Response actual = twitterResources.postTweet(request);
-        Response expected = Response.status(200, "Successfully Tweeted").build();
-        Assert.assertEquals(expected.getStatus(), actual.getStatus());
+        ResponseEntity<SendResponse> actual = twitterResources.postTweet(request);
+        ResponseEntity expected = new ResponseEntity(HttpStatus.OK);
+        Assert.assertEquals(expected.getStatusCode(), actual.getStatusCode());
     }
 }

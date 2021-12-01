@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import twitter4j.*;
 
 import javax.ws.rs.core.Response;
@@ -29,7 +30,7 @@ public class TwitterImplementTest {
     TwitterFactory twitterFactory;
     Twitter twitter;
     TwitterConfig twitterConfig;
-    Request request;
+    @Autowired Request request;
     TwitterResponse twitterResponse;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String message = "Bangalore is nice ";
@@ -51,7 +52,6 @@ public class TwitterImplementTest {
     @Before
     public void setUp() {
         twitterResources = mock(TwitterResources.class);
-        request = new Request();
         twitterConfig = mock(TwitterConfig.class);
         twitterFactory = mock(TwitterFactory.class);
         twitter = mock(Twitter.class);
@@ -63,9 +63,9 @@ public class TwitterImplementTest {
     @Test
     public void testCaseFetchTweetSuccessCase() throws TwitterException {
         Status s1 = mock(Status.class);
-        User user = mock(User.class);
+        User user=mock(User.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
-        ArrayList<TwitterResponse> expectedList =new ArrayList<>();
+        ArrayList<TwitterResponse> twitListExpected= spy(ArrayList.class);
         when(responseList.size()).thenReturn(1);
         when(responseList.get(0)).thenReturn(s1);
         when(s1.getUser()).thenReturn(user);
@@ -75,9 +75,9 @@ public class TwitterImplementTest {
         when(s1.getText()).thenReturn(message);
         when(s1.getCreatedAt()).thenReturn(createdAt);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
-        expectedList.add(twitterResponse);
-        ArrayList<TwitterResponse> actualList = twitterImplement.myTimeline();
-        Assert.assertEquals(expectedList,actualList);
+        twitListExpected.add(twitterResponse);
+        ArrayList<TwitterResponse> actualListExpected = twitterImplement.myTimeline();
+        Assert.assertSame(twitListExpected.size(),actualListExpected.size());
     }
 
     @Test
