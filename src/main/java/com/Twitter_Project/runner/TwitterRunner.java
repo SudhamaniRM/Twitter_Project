@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication(scanBasePackages = {"com.Twitter_Project.resources", "com.Twitter_Project.services", "com.Twitter_Project.config", "com.Twitter_Project.runner"})
+@EnableCaching
 public class TwitterRunner extends Application<TwitterConfig> {
     public static Logger logger = LoggerFactory.getLogger(TwitterRunner.class);
     TwitterResources twitterResources;

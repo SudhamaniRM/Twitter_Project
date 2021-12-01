@@ -3,6 +3,9 @@ package com.Twitter_Project.services;
 import com.Twitter_Project.config.TwitterConfig;
 import com.Twitter_Project.models.TwitterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@CacheConfig(cacheNames={"allTweets","filteredTweets"})
 @Service
 public class TwitterImplement {
     TwitterConfig twitterConfig;
@@ -33,18 +36,18 @@ public class TwitterImplement {
         twitter = twitterFactory.getInstance();
 
     }
-
     public TwitterImplement(TwitterFactory twitterFactory, TwitterResponse twitterResponse) {
         this.twitterFactory = twitterFactory;
         this.twitterResponse = twitterResponse;
         this.twitter = twitterFactory.getInstance();
     }
-
+    @Cacheable(cacheNames={"allTweets"})
+    @CacheEvict(cacheNames={"allTweets"},allEntries = true)
     public Status myTweet(String msg) throws TwitterException {
         Status status = twitter.updateStatus(msg);
         return status;
     }
-
+    @Cacheable(cacheNames={"allTweets"})
     public ArrayList<TwitterResponse> myTimeline() {
         ArrayList<TwitterResponse> Tweets = new ArrayList<>();
         List<Status> statuses = null;
@@ -67,7 +70,7 @@ public class TwitterImplement {
         }
         return Tweets;
     }
-
+    @Cacheable(cacheNames={"filteredTweets"})
     public List<TwitterResponse> getFilteredTweets(String tweets) {
         ArrayList<TwitterResponse> tweetList = myTimeline();
         int len = tweets.length();
