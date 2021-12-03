@@ -62,7 +62,6 @@ public class TwitterImplement {
      * @throws TwitterException when there is unsuccessful post of tweet.
      */
     @Cacheable(cacheNames = {"allTweets"})
-    @Scheduled(fixedRate = 2000)
     @CacheEvict(cacheNames = {"allTweets"}, allEntries = true)
     public Status myTweet(final String msg) throws TwitterException {
         Status status = twitter.updateStatus(msg);
@@ -75,6 +74,7 @@ public class TwitterImplement {
      * @return returns tweets to resources class.
      */
     @Cacheable(cacheNames = {"allTweets"})
+    @Scheduled(fixedRate = 2000)
     public ArrayList<TwitterResponse> myTimeline() {
         ArrayList<TwitterResponse> tweets = new ArrayList<>();
         List<Status> statuses = null;
@@ -105,6 +105,7 @@ public class TwitterImplement {
      * @return returns filtered tweets.
      */
     @Cacheable(cacheNames = {"filteredTweets"})
+    @Scheduled(fixedRate = 2000)
     public List<TwitterResponse> getFilteredTweets(final String searchTweet) {
         ArrayList<TwitterResponse> tweetList = myTimeline();
         int len = searchTweet.length();
