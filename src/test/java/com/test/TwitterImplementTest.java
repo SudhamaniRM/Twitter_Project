@@ -30,7 +30,8 @@ public class TwitterImplementTest {
     TwitterFactory twitterFactory;
     Twitter twitter;
     TwitterConfig twitterConfig;
-    @Autowired Request request;
+    @Autowired
+    Request request;
     TwitterResponse twitterResponse;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String message = "Bangalore is nice ";
@@ -63,9 +64,9 @@ public class TwitterImplementTest {
     @Test
     public void testCaseFetchTweetSuccessCase() throws TwitterException {
         Status s1 = mock(Status.class);
-        User user=mock(User.class);
+        User user = mock(User.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
-        ArrayList<TwitterResponse> twitListExpected= spy(ArrayList.class);
+        ArrayList<TwitterResponse> twitListExpected = spy(ArrayList.class);
         when(responseList.size()).thenReturn(1);
         when(responseList.get(0)).thenReturn(s1);
         when(s1.getUser()).thenReturn(user);
@@ -77,7 +78,7 @@ public class TwitterImplementTest {
         when(twitter.getHomeTimeline()).thenReturn(responseList);
         twitListExpected.add(twitterResponse);
         ArrayList<TwitterResponse> actualListExpected = twitterImplement.myTimeline();
-        Assert.assertSame(twitListExpected.size(),actualListExpected.size());
+        Assert.assertSame(twitListExpected.size(), actualListExpected.size());
     }
 
     @Test
@@ -88,7 +89,7 @@ public class TwitterImplementTest {
         Status actual = twitterImplement.myTweet(message);
         Assert.assertEquals(expected, actual);
     }
-
+    //test case to check success case of fetching the tweets based on search key
     @Test
     public void getFilteredTweetsSuccessCase() {
         ArrayList<String> str = new ArrayList<String>();
@@ -101,7 +102,7 @@ public class TwitterImplementTest {
         Response actualTweet = twitterResources.getFilterTweets("good");
         Assert.assertEquals(expectedTweet.getEntity(), actualTweet.getEntity());
     }
-
+    //test case to check fail case of fetching the tweets based on search key which is not in timeline
     @Test
     public void noTweetMatchTest() throws TwitterException {
         ResponseList<Status> responseList = mock(ResponseList.class);

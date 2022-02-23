@@ -1,7 +1,7 @@
 package com.test;
 
-import com.Twitter_Project.resources.TwitterResources;
 import com.Twitter_Project.config.TwitterConfig;
+import com.Twitter_Project.resources.TwitterResources;
 import com.Twitter_Project.runner.TwitterRunner;
 import io.dropwizard.setup.Environment;
 import org.junit.Assert;

@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -39,7 +39,7 @@ public class TwitterResourcesTest {
         arrayList.add("Two");
         Response expectedResponse = Response.ok(arrayList).build();
         Response actualResponse = twitterResources.getTimeline();
-       Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
+        Assert.assertEquals(expectedResponse.getStatus(), actualResponse.getStatus());
     }
 
     @Test
@@ -62,5 +62,11 @@ public class TwitterResourcesTest {
         ResponseEntity<SendResponse> actual = twitterResources.postTweet(request);
         ResponseEntity expected = new ResponseEntity(HttpStatus.OK);
         Assert.assertEquals(expected.getStatusCode(), actual.getStatusCode());
+    }
+    @Test(expected = ResponseStatusException.class)
+    public void testCase_BadRequestException_error() throws TwitterException {
+        Request request = new Request("hello");
+        when(twitterImplement.myTweet("hello")).thenThrow(ResponseStatusException.class);
+        ResponseEntity<SendResponse> actual = twitterResources.postTweet(request);
     }
 }

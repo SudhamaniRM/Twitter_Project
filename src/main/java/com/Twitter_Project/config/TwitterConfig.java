@@ -1,3 +1,6 @@
+/**
+ * This package contains configuration class.
+ */
 package com.Twitter_Project.config;
 
 import io.dropwizard.Configuration;
@@ -11,14 +14,17 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class TwitterConfig extends Configuration {
-    Logger logger = LoggerFactory.getLogger(TwitterConfig.class);
-    String filepath = "twitter4j.yml";
-    String accessTokenSecret = "";
-    String consumerSecret = "";
-    String consumerKey = "";
-    String accessToken = "";
-    Properties properties = new Properties();
-    FileInputStream fileInputStream;
+    private final Logger logger = LoggerFactory.getLogger(TwitterConfig.class);
+    /**
+     * String filepath stores the .yml file which contains the authentication keys.
+     */
+    private final String filepath = "twitter4j.yml";
+    private final Properties properties = new Properties();
+    private FileInputStream fileInputStream;
+    private String accessTokenSecret = "";
+    private String consumerSecret = "";
+    private String consumerKey = "";
+    private String accessToken = "";
 
     {
         try {
@@ -37,6 +43,11 @@ public class TwitterConfig extends Configuration {
         accessToken = properties.getProperty("accessToken");
     }
 
+    /**
+     * ConfigurationBuilder class used to set all Authentication keys.
+     *
+     * @return returns the keys.
+     */
     public ConfigurationBuilder configurationBuilder() {
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setDebugEnabled(true)
